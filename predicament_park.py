@@ -30,12 +30,42 @@ vel = [0, 0]
 speed = 5
 
 # make a wall
-wall1 =  [0, 0, 600, 40]
-wall2 =  [0, 0, 40, 800]
-wall3 =  [780, 0, 600, 40]
-wall4 =  [0, 580, 800, 40]
+wall1 =  []
+wall2 =  []
+wall3 =  []
+wall4 =  []
+wall5 =  [40, 120, 40, 40]
+wall6 =  [120, 40, 40, 40]
+wall7 =  []
+wall8 =  [280, 220, 100, 80]
+wall9 =  [380, ]
+wall10 =  [460, 400, 80, 80]
+wall11 =  [460, 460, 20, 80]
+wall12 =  [180, 460, 200, 100]
+wall13 =  [40, 400, 160, 60]
+wall14 =  [180, 320, 20, 80]
+wall15 =  [40, 240, 80, 80]
+wall16 =  [120, 160, 40, 40]
+wall17 =  [160, 260, 40, 60]
+wall18 =  [200, 260, 80, 80]
+wall19 =  [160, 120, 60, 40]
+wall20 =  [220, 120, 20, 40]
+wall21 =  [240, 80, 60, 80]
+wall22 =  [280, 160, 20, 60]
+wall23 =  []
+wall24 =  [580, 80, 120, 40]
+wall25 =  [660, 120, 60, 140]
+wall26 =  []
+wall27 =  [500, 300, 80, 80]
+wall28 =  [500, 260, 40, 40]
+wall29 =  []
+wall30 =  [640, 460, 20, 80]
+wall31 =  [680, 400, 80, 20]
 
-walls = [wall1, wall2, wall3, wall4]
+walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
+         wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
+         wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
+         wall31]
 
 # Game loop
 done = False
