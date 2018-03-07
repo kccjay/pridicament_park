@@ -24,6 +24,8 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 128, 43)
 GREY = (191, 191, 191)
+YELLOW = (255, 209, 26)
+
 
 # Fonts
 GAME_FONT = pygame.font.Font(None, 50)
@@ -46,9 +48,10 @@ def setup():
 
 
 # Make a block
-block =  [60, 60, 40, 40]
+block =  [40, 40, 30, 30]
 vel = [0, 0]
-speed = 5
+speed = 3
+score1 = 0
 
 #white space for intro card
 IN_CARD = [200, 240, 440, 120]
@@ -67,29 +70,15 @@ import intersects
 # Initialize game engine
 pygame.init()
 
-
 # Window
 SIZE = (800, 600)
 TITLE = "Predicament Park"
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption(TITLE)
 
-
 # Timer
 clock = pygame.time.Clock()
 refresh_rate = 40
-
-
-# Colors
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
-    
-# Make a block
-block =  [40, 40, 25, 25]
-vel = [0, 0]
-speed = 3
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -128,7 +117,25 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
          wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
          wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
          wall31]
+
+#The making of the coins
+coin1 = [740, 40, 20, 20]
+coin2 = [620, 140, 20, 20]
+coin3 = [420, 260, 20, 20]
+coin4 = [360, 300, 20, 20]
+coin5 = [240, 400, 20, 20]
+coin6 = [200, 440, 20, 20]
+coin7 = [140, 340, 20, 20]
+
+coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7]
+
+#Making multiple colors
+multi_color = [GREEN, BLACK, WHITE]
+
+
+#Varibles needed for the loop
 stage = START
+win = False
 
 # Game loop
 setup()
@@ -177,6 +184,7 @@ while not done:
             vel[1]  = speed
         else:
             vel[1]  = 0
+    
                     
                 
     # Game logic (Check for collisions, update points, etc.)
@@ -214,7 +222,22 @@ while not done:
                 stage = END
                 ''' and other stuff could happen here too '''
                 
+        '''the coins will get affected by the block here'''
+        hit_list = []
 
+        for c in coins:
+            if intersects.rect_rect(block, c):
+                hit_list.append(c)
+
+        hit_list = [c for c in coins if intersects.rect_rect(block, c)]
+
+        for hit in hit_list:
+            coins.remove(hit)
+            score1 += 1
+
+        if len(coins) == 0:
+            win = True
+            
 
 
     
@@ -222,8 +245,17 @@ while not done:
     screen.fill(GREY)
 
     pygame.draw.rect(screen, BLACK, block)
+    
     for w in walls:
         pygame.draw.rect(screen, GREEN, w)
+
+    if win:
+        font = pygame.font.Font(None, 48)
+        text = font.render("You Win!", 1, WHITE)
+        screen.blit(text, [400, 200])
+
+    for c in coins:
+        pygame.draw.rect(screen, YELLOW, c)
     
     ''' timer text '''
     timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
@@ -244,99 +276,11 @@ while not done:
         screen.blit(text1, [315, 260])
         screen.blit(text2, [215, 300])
 
-
-
-    # Update screen (Actually draw the picture in the window.)
-    pygame.display.flip()
-
-
-    # Limit refresh rate of game loop 
-    clock.tick(refresh_rate)
-
-
-# Close window and quit
-pygame.quit()
-
-walls = [wall1, wall2, wall3, wall4]
-
-# Game loop
-done = False
-
-while not done:
-    # Event processing (React to key presses, mouse clicks, etc.)
-    ''' for now, we'll just check to see if the X is clicked '''
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-
-    state = pygame.key.get_pressed()
-
-    up = state[pygame.K_UP]
-    down = state[pygame.K_DOWN]
-    left = state[pygame.K_LEFT]
-    right = state[pygame.K_RIGHT]
-
-    if left:
-        vel[0]  = -speed
-    elif right:
-        vel[0]  = speed
-    else:
-        vel[0]  = 0
-
-    if up:
-        vel[1] = -speed
-    elif down:
-        vel[1]  = speed
-    else:
-        vel[1]  = 0
-        
-        
-    # Game logic (Check for collisions, update points, etc.)
-    ''' move the block in horizontal direction '''
-    block[0] += vel[0]
-
-    ''' resolve collisions '''
-    for w in walls:
-        if intersects.rect_rect(block, w):        
-            if vel[0]> 0:
-                block[0] = w[0] - block[2]
-            elif vel[0] < 0:
-                block[0] = w[0] + w[2]
-
-    ''' move the block in vertical direction '''
-    block[1] += vel[1]
-    
-    ''' resolve collisions '''
-    for w in walls:
-        if intersects.rect_rect(block, w):                    
-            if vel[1] > 0:
-                block[1] = w[1] - block[3]
-            if vel[1] < 0:
-                block[1] = w[1] + w[3]
-    
-    ''' timer stuff '''
-    if stage == PLAYING:
-        ticks += 1
-
-        if ticks % refresh_rate == 0:
-            time_remaining -= 1
-
-        if time_remaining == 0:
-            stage = END
-            ''' and other stuff could happen here too '''
-            
-    
-    # Drawing code (Describe the picture. It isn't actually drawn yet.)
-    '''
-    screen.fill(BLACK)
-
-    pygame.draw.rect(screen, WHITE, block)
-
-    for w in walls:
-        pygame.draw.rect(screen, RED, w)
-    '''
-    
-
+    #Coins that can't be reached and have no other purpose in the except to trick the player
+    pygame.draw.rect(screen, YELLOW, 160, 180, 20, 20)
+    pygame.draw.rect(screen, YELLOW, 200, 160, 20, 20)
+    pygame.draw.rect(screen, YELLOW, 240, 160, 20, 20)
+    pygame.draw.rect(screen, YELLOW, 240, 220, 20, 20)
 
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
