@@ -48,7 +48,7 @@ def setup():
 
 
 # Make a block
-block =  [40, 40, 30, 30]
+block =  [40, 40, 40, 40]
 vel = [0, 0]
 speed = 3
 score1 = 0
@@ -56,12 +56,6 @@ score1 = 0
 #white space for intro card
 IN_CARD = [200, 240, 440, 120]
 OUT_CARD = [200, 240, 440, 120]
-# make a wall
-wall1 =  [0, 0, 40, 800]
-wall2 =  [0, 0, 800, 40]
-wall3 =  [0, 560, 800, 40]
-wall4 =  [760, 0, 640, 600]
-
 
 # Imports
 import pygame
@@ -95,7 +89,7 @@ wall11 =  [460, 480, 20, 80]
 wall12 =  [180, 460, 200, 100]
 wall13 =  [40, 400, 160, 60]
 wall14 =  [180, 320, 20, 80]
-wall15 =  [40, 240, 80, 80]
+
 wall16 =  [120, 160, 40, 160]
 wall17 =  [160, 260, 40, 60]
 wall18 =  [200, 260, 80, 40]
@@ -114,9 +108,13 @@ wall30 =  [640, 460, 120, 20]
 wall31 =  [680, 400, 80, 20]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
-         wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
+         wall11, wall12, wall13, wall14, wall16, wall17, wall18, wall19, wall20,
          wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
          wall31]
+
+#the teleporting walls
+telewall15 = [40, 240, 80, 80]
+teleports = [telewall15]
 
 #The making of the coins
 coin1 = [740, 40, 20, 20]
@@ -128,9 +126,6 @@ coin6 = [200, 440, 20, 20]
 coin7 = [140, 340, 20, 20]
 
 coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7]
-
-#Making multiple colors
-multi_color = [GREEN, BLACK, WHITE]
 
 
 #Varibles needed for the loop
@@ -186,7 +181,11 @@ while not done:
             vel[1]  = 0
     
                     
-                
+    #Teleporting around the game board
+    if block[0] == 60 and block[1] == 210:
+        block[0] = (60)
+        block[1] = (320)
+    
     # Game logic (Check for collisions, update points, etc.)
     if stage == PLAYING:
         ''' move the block in horizontal direction '''
@@ -203,13 +202,31 @@ while not done:
         ''' move the block in vertical direction '''
         block[1] += vel[1]
         
-        ''' resolve collisions '''
+        ''' resolve collisions'''
         for w in walls:
             if intersects.rect_rect(block, w):                    
                 if vel[1] > 0:
                     block[1] = w[1] - block[3]
                 if vel[1] < 0:
-                    block[1] = w[1] + w[3]           
+                    block[1] = w[1] + w[3]
+
+        '''
+        #resolve collisions for teleporting walls
+        for t in teleports:
+            if intersects.rect_rect(block, t):        
+                if vel[0]> 0:
+                    block[0] = t[0] - block[2]
+                elif vel[0] < 0:
+                    block[0] = t[0] + t[2]
+        
+        #resolve collisions for teleporting walls
+        for t in teleports:
+            if intersects.rect_rect(block, t):                    
+                if vel[1] > 0:
+                    block[1] = t[1] - block[3]
+                if vel[1] < 0:
+                    block[1] = t[1] + t[3]
+        '''
 
         ''' timer stuff '''
         if stage == PLAYING:
@@ -248,6 +265,9 @@ while not done:
     
     for w in walls:
         pygame.draw.rect(screen, GREEN, w)
+        
+    for t in teleports:
+       pygame.draw.rect(screen, GREEN, t)
 
     if win:
         font = pygame.font.Font(None, 48)
@@ -277,10 +297,14 @@ while not done:
         screen.blit(text2, [215, 300])
 
     #Coins that can't be reached and have no other purpose in the except to trick the player
-    pygame.draw.rect(screen, YELLOW, 160, 180, 20, 20)
-    pygame.draw.rect(screen, YELLOW, 200, 160, 20, 20)
-    pygame.draw.rect(screen, YELLOW, 240, 160, 20, 20)
-    pygame.draw.rect(screen, YELLOW, 240, 220, 20, 20)
+    C1 = [160, 180, 20, 20]
+    C2 = [200, 160, 20, 20]
+    C3 = [240, 160, 20, 20]
+    C4 = [240, 220, 20, 20]
+    pygame.draw.rect(screen, YELLOW, C1)
+    pygame.draw.rect(screen, YELLOW, C2)
+    pygame.draw.rect(screen, YELLOW, C3)
+    pygame.draw.rect(screen, YELLOW, C4)
 
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
