@@ -43,7 +43,7 @@ def setup():
     size = 50
 
     stage = START
-    time_remaining = 10
+    time_remaining = 30
     ticks = 0
 
 
@@ -87,9 +87,10 @@ wall9 =  [380, 280, 80, 280]
 wall10 =  [460, 400, 80, 80]
 wall11 =  [460, 480, 20, 80]
 wall12 =  [180, 460, 200, 100]
-wall13 =  [40, 400, 160, 60]
+wall13a =  [120, 400, 100, 60]
+wall13b =  [40, 420, 100, 60]
 wall14 =  [180, 320, 20, 80]
-
+wall15 =  [40, 280, 80, 40]
 wall16 =  [120, 160, 40, 160]
 wall17 =  [160, 260, 40, 60]
 wall18 =  [200, 260, 80, 40]
@@ -108,13 +109,13 @@ wall30 =  [640, 460, 120, 20]
 wall31 =  [680, 400, 80, 20]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
-         wall11, wall12, wall13, wall14, wall16, wall17, wall18, wall19, wall20,
+         wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
          wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
          wall31]
 
 #the teleporting walls
-telewall15 = [40, 240, 80, 80]
-teleports = [telewall15]
+t1 = [40, 240, 80, 40,  60, 340]
+teleports = [t1]
 
 #The making of the coins
 coin1 = [740, 40, 20, 20]
@@ -210,23 +211,13 @@ while not done:
                 if vel[1] < 0:
                     block[1] = w[1] + w[3]
 
-        '''
-        #resolve collisions for teleporting walls
+        ''' ONLY TELEPORTER STUFF '''
         for t in teleports:
-            if intersects.rect_rect(block, t):        
-                if vel[0]> 0:
-                    block[0] = t[0] - block[2]
-                elif vel[0] < 0:
-                    block[0] = t[0] + t[2]
-        
-        #resolve collisions for teleporting walls
-        for t in teleports:
-            if intersects.rect_rect(block, t):                    
-                if vel[1] > 0:
-                    block[1] = t[1] - block[3]
-                if vel[1] < 0:
-                    block[1] = t[1] + t[3]
-        '''
+            rect = t[:4]
+            if intersects.rect_rect(block, rect):
+                block[0] = t[4]
+                block[1] = t[5]
+            
 
         ''' timer stuff '''
         if stage == PLAYING:
@@ -267,7 +258,8 @@ while not done:
         pygame.draw.rect(screen, GREEN, w)
         
     for t in teleports:
-       pygame.draw.rect(screen, GREEN, t)
+       rectangle = t[:4]
+       pygame.draw.rect(screen, GREEN, rectangle)
 
     if win:
         font = pygame.font.Font(None, 48)
