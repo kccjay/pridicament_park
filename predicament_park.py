@@ -56,6 +56,7 @@ score1 = 0
 #white space for intro card
 IN_CARD = [200, 240, 440, 120]
 OUT_CARD = [200, 240, 440, 120]
+WIN_CARD = [190, 240, 465, 120]
 
 # Imports
 import pygame
@@ -93,7 +94,7 @@ wall14 =  [180, 320, 20, 80]
 wall15 =  [40, 280, 80, 40]
 wall16 =  [120, 160, 40, 160]
 wall17 =  [160, 260, 40, 60]
-wall18 =  [200, 260, 80, 40]
+#wall18 =  [200, 260, 80, 40]
 wall19 =  [160, 120, 60, 40]
 wall20 =  [220, 120, 20, 40]
 wall21 =  [240, 80, 60, 80]
@@ -109,16 +110,17 @@ wall30 =  [640, 460, 120, 20]
 wall31 =  [680, 400, 80, 20]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
-         wall11, wall12, wall13a, wall13b, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
+         wall11, wall12, wall13a, wall13b, wall14, wall15, wall16, wall17, wall19, wall20,
          wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
          wall31]
 
 #the teleporting walls
 t1 = [40, 240, 80, 40,  60, 320]
 t2 = [40, 400, 60, 20, 720, 220]
-t3 = [360, 220, 20, 80, 260, 460]
+t3 = [360, 220, 20, 80, 260, 420]
+t4 = [200, 260, 80, 40, 640, 480]
 
-teleports = [t1, t2, t3]
+teleports = [t1, t2, t3, t4]
 
 #The making of the coins
 coin1 = [740, 40, 20, 20]
@@ -128,8 +130,9 @@ coin4 = [360, 300, 20, 20]
 coin5 = [240, 400, 20, 20]
 coin6 = [200, 440, 20, 20]
 coin7 = [140, 340, 20, 20]
+coin8 = [720, 480, 40, 80]
 
-coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7]
+coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8]
 
 
 #Varibles needed for the loop
@@ -158,7 +161,8 @@ while not done:
                     setup()
             elif event.key == pygame.K_x:
                 stage = END
-
+            elif event.key == pygame.K_7:
+                win = True
                     
     state = pygame.key.get_pressed()
     
@@ -234,6 +238,7 @@ while not done:
                 ''' and other stuff could happen here too '''
                 
         '''the coins will get affected by the block here'''
+        
         hit_list = []
 
         for c in coins:
@@ -248,7 +253,8 @@ while not done:
 
         if len(coins) == 0:
             win = True
-            
+            stage = END
+                        
 
 
     
@@ -264,14 +270,17 @@ while not done:
        rectangle = t[:4]
        pygame.draw.rect(screen, GREEN, rectangle)
 
-    if win:
-        font = pygame.font.Font(None, 48)
-        text = font.render("You Win!", 1, WHITE)
-        screen.blit(text, [400, 200])
-
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
-    
+
+    if win:
+        pygame.draw.rect(screen, WHITE, WIN_CARD)
+        font = pygame.font.Font(None, 48)
+        text1 = font.render("You Win!", 1, BLACK)
+        text2 = font.render("(Press ENTER to continue.)", 1, BLACK)
+        screen.blit(text1, [350, 270])
+        screen.blit(text2, [205, 310])
+                           
     ''' timer text '''
     timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
     screen.blit(timer_text, [200, 480])
