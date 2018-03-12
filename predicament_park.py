@@ -82,13 +82,13 @@ wall4 =  [760, 0, 640, 600]
 wall5 =  [40, 120, 40, 40]
 wall6 =  [120, 40, 40, 40]
 wall7 =  [350, 80, 70, 140]
-wall8 =  [280, 220, 100, 80]
+wall8 =  [280, 220, 80, 80]
 wall9 =  [380, 280, 80, 280]
 wall10 =  [460, 400, 80, 80]
 wall11 =  [460, 480, 20, 80]
 wall12 =  [180, 460, 200, 100]
-wall13a =  [120, 400, 100, 60]
-wall13b =  [40, 420, 100, 60]
+wall13a =  [100, 400, 100, 60]
+wall13b =  [40, 420, 60, 40]
 wall14 =  [180, 320, 20, 80]
 wall15 =  [40, 280, 80, 40]
 wall16 =  [120, 160, 40, 160]
@@ -109,13 +109,16 @@ wall30 =  [640, 460, 120, 20]
 wall31 =  [680, 400, 80, 20]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10,
-         wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
+         wall11, wall12, wall13a, wall13b, wall14, wall15, wall16, wall17, wall18, wall19, wall20,
          wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, wall29, wall30,
          wall31]
 
 #the teleporting walls
-t1 = [40, 240, 80, 40,  60, 340]
-teleports = [t1]
+t1 = [40, 240, 80, 40,  60, 320]
+t2 = [40, 400, 60, 20, 720, 220]
+t3 = [360, 220, 20, 80, 260, 460]
+
+teleports = [t1, t2, t3]
 
 #The making of the coins
 coin1 = [740, 40, 20, 20]
