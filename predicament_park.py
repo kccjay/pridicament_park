@@ -43,7 +43,7 @@ def setup():
     size = 50
 
     stage = START
-    time_remaining = 30
+    time_remaining = 100
     ticks = 0
 
 
@@ -135,8 +135,8 @@ coin8 = [720, 480, 40, 80]
 coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8]
 
 
+
 #Varibles needed for the loop
-stage = START
 win = False
 
 # Game loop
@@ -156,9 +156,12 @@ while not done:
                 if event.key == pygame.K_SPACE:
                     stage = PLAYING            
                     
-            elif stage == END:
+            elif stage == END :
                 if event.key == pygame.K_SPACE:
                     setup()
+                    block[0] = 40
+                    block[1] = 40
+                    
             elif event.key == pygame.K_x:
                 stage = END
             elif event.key == pygame.K_7:
@@ -238,7 +241,7 @@ while not done:
                 ''' and other stuff could happen here too '''
                 
         '''the coins will get affected by the block here'''
-        
+        #how to restart the coins 
         hit_list = []
 
         for c in coins:
@@ -249,9 +252,10 @@ while not done:
 
         for hit in hit_list:
             coins.remove(hit)
-            score1 += 1
+            score1 += 5
 
         if len(coins) == 0:
+            coins[:7]
             win = True
             stage = END
                         
@@ -272,18 +276,15 @@ while not done:
 
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
-
-    if win:
-        pygame.draw.rect(screen, WHITE, WIN_CARD)
-        font = pygame.font.Font(None, 48)
-        text1 = font.render("You Win!", 1, BLACK)
-        text2 = font.render("(Press ENTER to continue.)", 1, BLACK)
-        screen.blit(text1, [350, 270])
-        screen.blit(text2, [205, 310])
                            
     ''' timer text '''
     timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
     screen.blit(timer_text, [200, 480])
+
+    '''The score text '''
+    text1 = GAME_FONT.render("Score: " + str(score1), 1, WHITE)
+    screen.blit(text1, [200, 520])
+
                     
     ''' begin/end game text '''
     if stage == START:
@@ -292,13 +293,21 @@ while not done:
         text2 = GAME_FONT.render("(Press SPACE to play.)", True, BLACK)
         screen.blit(text1, [320, 260])
         screen.blit(text2, [225, 300])
-        
+    #determines if the game ends when the time ends or when the coins are all collected
     elif stage == END:
-        pygame.draw.rect(screen, WHITE, OUT_CARD)
-        text1 = GAME_FONT.render("Game Over", True, BLACK)
-        text2 = GAME_FONT.render("(Press SPACE to restart.)", True, BLACK)
-        screen.blit(text1, [315, 260])
-        screen.blit(text2, [215, 300])
+        if time_remaining == 0:
+            pygame.draw.rect(screen, WHITE, OUT_CARD)
+            text1 = GAME_FONT.render("Game Over", True, BLACK)
+            text2 = GAME_FONT.render("(Press SPACE to restart.)", True, BLACK)
+            screen.blit(text1, [315, 260])
+            screen.blit(text2, [215, 300])
+        elif len(coins) == 0:
+            pygame.draw.rect(screen, WHITE, WIN_CARD)
+            font = pygame.font.Font(None, 48)
+            text1 = font.render("You Win!", 1, BLACK)
+            text2 = font.render("(Press SPACE to continue.)", 1, BLACK)
+            screen.blit(text1, [350, 270])
+            screen.blit(text2, [205, 310])
 
     #Coins that can't be reached and have no other purpose in the except to trick the player
     C1 = [160, 180, 20, 20]
