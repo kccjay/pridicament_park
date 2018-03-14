@@ -35,18 +35,6 @@ START = 0
 PLAYING = 1
 END = 2
 
-def setup():
-    global block_pos, block_vel, size, stage, time_remaining, ticks
-    
-    block_pos = [375, 275]
-    block_vel = [0, 0]
-    size = 50
-
-    stage = START
-    time_remaining = 100
-    ticks = 0
-
-
 # Make a block
 block =  [40, 40, 40, 40]
 vel = [0, 0]
@@ -116,11 +104,24 @@ coin6 = [200, 440, 20, 20]
 coin7 = [140, 340, 20, 20]
 coin8 = [720, 480, 40, 80]
 
-coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8]
-
-
 name = input("whats your Player name? ")
 
+#Add something to this and add to global and it restarts what you put in 
+def setup():
+    global block_pos, block_vel, size, stage, time_remaining, ticks, coins
+    
+    block_pos = [375, 275]
+    block_vel = [0, 0]
+    size = 50
+
+    stage = START
+    time_remaining = 100
+    ticks = 0
+    
+    coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8]
+
+
+    
 #Varibles needed for the loop
 win = False
 timer_stuff = False 
@@ -148,6 +149,7 @@ while not done:
                     setup()
                     block[0] = 40
                     block[1] = 40
+                    win = False
                     
                     
             elif event.key == pygame.K_x:
@@ -316,4 +318,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
