@@ -46,10 +46,10 @@ block_color = BLACK
 lives = 5
 
 #white space for intro card
-IN_CARD = [200, 240, 440, 120]
-OUT_CARD = [200, 240, 440, 120]
-WIN_CARD = [190, 240, 465, 120]
-DEATH_CARD = [200, 240, 440, 120]
+IN_CARD = [0, 240, 800, 120]
+OUT_CARD = [0, 240, 800, 120]
+WIN_CARD = [0, 240, 800, 120]
+DEATH_CARD = [0, 240, 800, 120]
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -128,8 +128,13 @@ coin19 = [720, 480, 40, 80]
 
 #these coins take the life of the "block"
 bitA = [140, 140, 20, 20]
+bitB = [220, 100, 20, 20]
+bitC = [360, 40, 20, 20]
+bitD = [420, 140, 20, 20]
+bitE = [540, 260, 20, 20]
+bitF = [520, 480, 20, 20]
 
-bit_coins = [bitA]
+bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
         
 
 #name = input("whats your Player name? ")
@@ -143,7 +148,7 @@ def setup():
     size = 50
 
     stage = START
-    time_remaining = 100
+    time_remaining = 30
     ticks = 0
     
     coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19]
@@ -179,10 +184,12 @@ while not done:
                     block[0] = 40
                     block[1] = 40
                     win = False
-                    
+                    life = True                    
                     
             elif event.key == pygame.K_x:
                 stage = END
+            elif event.key == pygame.K_c:
+                life = False
             elif event.key == pygame.K_7:
                 win = True
                     
@@ -316,15 +323,16 @@ while not done:
                            
     ''' timer text '''
     timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
-    screen.blit(timer_text, [200, 480])
+    screen.blit(timer_text, [200, 5])
 
     '''The score text '''
     #add the name varible when down with testing program
     text1 = GAME_FONT.render("CJ: " + str(score1), True, WHITE)
-    screen.blit(text1, [200, 520])
+    screen.blit(text1, [300, 5])
 
     '''The life indicator'''
-    life_text = GAME_FONT.render("Life = " +
+    life_text = GAME_FONT.render("Lives = " + str(lives), True, WHITE)
+    screen.blit(life_text, [430, 5])
 
                     
     ''' begin/end game text '''
@@ -332,29 +340,30 @@ while not done:
         pygame.draw.rect(screen, WHITE, IN_CARD)
         text1 = GAME_FONT.render("Player One! You must learn!", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to test yourself!)", True, BLACK)
-        screen.blit(text1, [320, 260])
-        screen.blit(text2, [225, 300])
+        screen.blit(text1, [180, 260])
+        screen.blit(text2, [160, 300])
+                                 
     #determines if the game ends when the time ends or when the coins are all collected
     if time_remaining == 0:
         pygame.draw.rect(screen, WHITE, OUT_CARD)
         text1 = GAME_FONT.render("Game Over", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to start from the begining.)", True, BLACK)
-        screen.blit(text1, [315, 260])
-        screen.blit(text2, [215, 300])
+        screen.blit(text1, [300, 260])
+        screen.blit(text2, [70, 300])
         stage = END
     elif win == True:
         pygame.draw.rect(screen, WHITE, WIN_CARD)
         text1 = GAME_FONT.render("YOU'VE WON I'M SO HAPPY", 1, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to find other ways.)", 1, BLACK)
-        screen.blit(text1, [350, 270])
-        screen.blit(text2, [205, 310])
+        screen.blit(text1, [180, 270])
+        screen.blit(text2, [140, 310])
         stage = END
     elif life == False:
         pygame.draw.rect(screen, WHITE, DEATH_CARD)
         text1 = GAME_FONT.render("Your life is done for", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to be reborn!)", True, BLACK)
-        screen.blit(text1, [350, 270])
-        screen.blit(text2, [205, 310])
+        screen.blit(text1, [260, 270])
+        screen.blit(text2, [180, 310])
         stage = END
 
     #Coins that can't be reached and have no other purpose in the except to trick the player
@@ -377,4 +386,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
