@@ -42,10 +42,14 @@ speed = 3
 score1 = 0
 block_color = BLACK
 
+#Lives in the game
+lives = 5
+
 #white space for intro card
 IN_CARD = [200, 240, 440, 120]
 OUT_CARD = [200, 240, 440, 120]
 WIN_CARD = [190, 240, 465, 120]
+DEATH_CARD = [200, 240, 440, 120]
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -97,7 +101,7 @@ t4 = [200, 260, 80, 40, 640, 480]
 t5 = [760, 420, 40, 40, 300, 180]
 t6 = [500, 300, 80, 20, 720, 200]
 t7 = [620, 260, 40, 20, 120, 460]
-t8 = [40, 420, 60, 40, 
+t8 = [40, 420, 60, 40, 500, 220]
 
 teleports = [t1, t2, t3, t4, t5, t6, t7, t8]
 
@@ -109,13 +113,30 @@ coin4 = [360, 300, 20, 20]
 coin5 = [240, 400, 20, 20]
 coin6 = [200, 440, 20, 20]
 coin7 = [140, 340, 20, 20]
-coin8 = [720, 480, 40, 80]
+coin8 = [60, 480, 20, 20]
+coin9 = [120, 520, 20, 20]
+coin10 = [40, 540, 20, 20]
+coin11 = [360, 440, 20, 20]
+coin12 = [200, 300, 20, 20]
+coin13 = [560, 540, 20, 20]
+coin14 = [540, 340, 20, 20]
+coin15 = [720, 120, 20, 20]
+coin16 = [540, 160, 20, 20]
+coin17 = [40, 360, 20, 20]
+coin18 = [100, 360, 20, 20]
+coin19 = [720, 480, 40, 80]
+
+#these coins take the life of the "block"
+bitA = [140, 140, 20, 20]
+
+bit_coins = [bitA]
+        
 
 #name = input("whats your Player name? ")
 
 #Add something to this and add to global and it restarts what you put in 
 def setup():
-    global block_pos, block_vel, size, stage, time_remaining, ticks, coins
+    global block_pos, block_vel, size, stage, time_remaining, ticks, coins, bit_coins
     
     block_pos = [375, 275]
     block_vel = [0, 0]
@@ -125,13 +146,14 @@ def setup():
     time_remaining = 100
     ticks = 0
     
-    coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8]
-
+    coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coin19]
+    bit_coins = [bitA]
 
     
 #Varibles needed for the loop
 win = False
-timer_stuff = False 
+timer_stuff = False
+life = True
 
 # Game loop
 setup()
@@ -256,7 +278,24 @@ while not done:
             win = True
 
 
-                              
+        '''this is the bad coins or bit_coins'''
+        
+        neg_list = []
+            
+        for bit in bit_coins:
+            if intersects.rect_rect(block, bit):
+                neg_list.append(bit)
+
+        neg_list = [bit for bit in bit_coins if intersects.rect_rect(block, bit)]
+
+        for neg in neg_list:
+            bit_coins.remove(neg)
+            lives -= 1
+
+        if lives == 0:
+            life = False 
+
+               
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(GREY)
 
@@ -271,6 +310,9 @@ while not done:
 
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
+
+    for bit in bit_coins:
+        pygame.draw.rect(screen, YELLOW, bit)
                            
     ''' timer text '''
     timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
@@ -281,27 +323,36 @@ while not done:
     text1 = GAME_FONT.render("CJ: " + str(score1), True, WHITE)
     screen.blit(text1, [200, 520])
 
+    '''The life indicator'''
+    life_text = GAME_FONT.render("Life = " +
+
                     
     ''' begin/end game text '''
     if stage == START:
         pygame.draw.rect(screen, WHITE, IN_CARD)
-        text1 = GAME_FONT.render("Player One!", True, BLACK)
-        text2 = GAME_FONT.render("(Press SPACE to play.)", True, BLACK)
+        text1 = GAME_FONT.render("Player One! You must learn!", True, BLACK)
+        text2 = GAME_FONT.render("(Press SPACE to test yourself!)", True, BLACK)
         screen.blit(text1, [320, 260])
         screen.blit(text2, [225, 300])
     #determines if the game ends when the time ends or when the coins are all collected
     if time_remaining == 0:
         pygame.draw.rect(screen, WHITE, OUT_CARD)
         text1 = GAME_FONT.render("Game Over", True, BLACK)
-        text2 = GAME_FONT.render("(Press SPACE to restart.)", True, BLACK)
+        text2 = GAME_FONT.render("(Press SPACE to start from the begining.)", True, BLACK)
         screen.blit(text1, [315, 260])
         screen.blit(text2, [215, 300])
         stage = END
     elif win == True:
         pygame.draw.rect(screen, WHITE, WIN_CARD)
-        font = pygame.font.Font(None, 48)
-        text1 = font.render("You Win!", 1, BLACK)
-        text2 = font.render("(Press SPACE to continue.)", 1, BLACK)
+        text1 = GAME_FONT.render("YOU'VE WON I'M SO HAPPY", 1, BLACK)
+        text2 = GAME_FONT.render("(Press SPACE to find other ways.)", 1, BLACK)
+        screen.blit(text1, [350, 270])
+        screen.blit(text2, [205, 310])
+        stage = END
+    elif life == False:
+        pygame.draw.rect(screen, WHITE, DEATH_CARD)
+        text1 = GAME_FONT.render("Your life is done for", True, BLACK)
+        text2 = GAME_FONT.render("(Press SPACE to be reborn!)", True, BLACK)
         screen.blit(text1, [350, 270])
         screen.blit(text2, [205, 310])
         stage = END
@@ -326,3 +377,4 @@ while not done:
 
 # Close window and quit
 pygame.quit()
+
