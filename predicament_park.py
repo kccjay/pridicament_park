@@ -33,8 +33,8 @@ GAME_FONT = pygame.font.Font(None, 50)
 #Stages
 START = 0
 PLAYING = 1
-PAUSE = 3
 END = 2
+PAUSE = 3
 
 # Make a block
 block =  [40, 40, 40, 40]
@@ -128,7 +128,8 @@ coin14 = [540, 340, 20, 20]
 coin15 = [720, 120, 20, 20]
 coin16 = [540, 160, 20, 20]
 coin17 = [40, 360, 20, 20]
-coin18 = [100, 360, 20, 20] 
+coin18 = [100, 360, 20, 20]
+coinEND= [720, 480, 40, 80]
 
 #these coins take the life of the "block"
 bitA = [140, 140, 20, 20]
@@ -140,9 +141,8 @@ bitF = [520, 480, 20, 20]
 
 bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
 
-ends = [720, 480, 40, 80]
-
-#name = input("whats your Player name? ")
+name = input("Whats your Player name? ")
+#option = input("If you want to see the controls press O ")
 
 #Add something to this and add to global and it restarts what you put in 
 def setup():
@@ -153,10 +153,10 @@ def setup():
     size = 50
 
     stage = START
-    time_remaining = 30
+    time_remaining = 40
     ticks = 0
     
-    coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18]
+    coins = [coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10, coin11, coin12, coin13, coin14, coin15, coin16, coin17, coin18, coinEND]
     bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
     
 #Varibles needed for the loop
@@ -165,7 +165,6 @@ timer_stuff = False
 life = True
 escape = False
 ending = False
-relocate = False
 
 
 # Game loop
@@ -174,7 +173,7 @@ setup()
 done = False
 
 while not done:
-    # Event processing (React to key presses, mouse clicks, etc.)
+    #Event processing (React to key presses, mouse clicks, etc.)
 
 
     
@@ -321,31 +320,6 @@ while not done:
 
         if lives == 0:
             life = False
-
-        #the end block
-        if win == True:
-            for e in ends:
-                if intersects.rect_rect(block, e):
-                    end_point.append(e)
-
-            end_point = [e for e in ends if intersects.rect_rect(block, bit)]
-
-            for ends in end_point:
-                ending = True
-        elif:
-            for e in ends:
-                if intersects.rect_rect(block, e):
-                    end_point.append(e)
-
-            end_point = [e for e in ends if intersects.rect_rect(block, bit)]
-
-            for ends in end_point:
-                relocate = True
-
-        if relocate == True:
-            block[0] = 40
-            block[1] = 40
-
                
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(GREY)
@@ -365,17 +339,14 @@ while not done:
     for bit in bit_coins:
         pygame.draw.rect(screen, YELLOW, bit)
 
-    for e in ends:
-        pygame.draw.rect(screen, GREEN, e)
     
-    if stage == PLAYING:
+    if stage == PLAYING or stage == PAUSE:
         ''' timer text '''
         timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
         screen.blit(timer_text, [200, 5])
 
         '''The score text '''
-        #add the name varible when down with testing program
-        score_text = GAME_FONT.render("CJ: " + str(score1), True, WHITE)
+        score_text = GAME_FONT.render(name + ": " + str(score1), True, WHITE)
         screen.blit(score_text, [300, 5])
 
         '''The life indicator'''
@@ -403,13 +374,15 @@ while not done:
                                  
     #determines if the game ends when the time ends or when the coins are all collected
     if time_remaining == 0:
+        pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, OUT_CARD)
         text1 = GAME_FONT.render("Game Over", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to start from the begining.)", True, BLACK)
         screen.blit(text1, [300, 270])
         screen.blit(text2, [70, 310])
         stage = END
-    elif ending == True:
+    elif win == True:
+        pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, WIN_CARD)
         text1 = GAME_FONT.render("YOU'VE WON I'M SO HAPPY", 1, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to find other ways.)", 1, BLACK)
@@ -417,6 +390,7 @@ while not done:
         screen.blit(text2, [140, 310])
         stage = END
     elif life == False:
+        pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, DEATH_CARD)
         text1 = GAME_FONT.render("Your life is done for", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to be reborn!)", True, BLACK)
@@ -424,13 +398,15 @@ while not done:
         screen.blit(text2, [180, 310])
         stage = END
     elif escape == True:
+        pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, SUICIDE_CARD)
         text1 = GAME_FONT.render("You messed up didn't you? It's alright though.", True, BLACK)
         text2 = GAME_FONT.render("(Just press SPACE to be forgiven.)", True, BLACK)
-        screen.blit(text1, [260, 270])
-        screen.blit(text2, [180, 310])
+        screen.blit(text1, [30, 270])
+        screen.blit(text2, [120, 310])
         stage = END
     elif stage == PAUSE:
+        pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, PAUSE_CARD)
         text1 = GAME_FONT.render("PAUSE", True, BLACK)
         text2 = GAME_FONT.render("(Release to RESUME)", True, BLACK)
@@ -449,4 +425,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
