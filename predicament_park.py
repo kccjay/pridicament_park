@@ -54,6 +54,7 @@ DEATH_CARD = [0, 240, 800, 120]
 SUICIDE_CARD = [0, 240, 800, 120]
 PAUSE_CARD = [0, 240, 800, 120]
 GREEN_CARD = [0, 0, 800, 600]
+SCORE_CARD = [0, 60, 140, 210]
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -388,6 +389,15 @@ while not done:
         text2 = GAME_FONT.render("(Press SPACE to find other ways.)", 1, BLACK)
         screen.blit(text1, [180, 270])
         screen.blit(text2, [140, 310])
+        text3 = GAME_FONT.render(name + ": " + str(score1), True, BLACK)
+        text4 = GAME_FONT.render("lives: " + lives, True, BLACK)
+        text5 = GAME_FONT.render("Your time: " + str(time_remaining), True, BLACK)
+        screen.blit(text1, [355, 270])
+        screen.blit(text2, [230, 310])
+        screen.blit(text3, [10, 70])
+        #screen.blit(text4
+        #screen.blit(text5,
+        #10
         stage = END
     elif life == False:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
@@ -408,11 +418,13 @@ while not done:
     elif stage == PAUSE:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, PAUSE_CARD)
+        pygame.draw.rect(screen, WHITE, SCORE_CARD)
         text1 = GAME_FONT.render("PAUSE", True, BLACK)
         text2 = GAME_FONT.render("(Release to RESUME)", True, BLACK)
         screen.blit(text1, [355, 270])
         screen.blit(text2, [230, 310])
         stage = PAUSE
+        
 
 
     # Update screen (Actually draw the picture in the window.)
@@ -425,3 +437,4 @@ while not done:
 
 # Close window and quit
 pygame.quit()
+
