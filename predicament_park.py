@@ -54,7 +54,7 @@ DEATH_CARD = [0, 240, 800, 120]
 SUICIDE_CARD = [0, 240, 800, 120]
 PAUSE_CARD = [0, 240, 800, 120]
 GREEN_CARD = [0, 0, 800, 600]
-SCORE_CARD = [0, 60, 140, 210]
+SCORE_CARD = [0, 60, 800, 70]
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -206,6 +206,8 @@ while not done:
                 life = False
             elif event.key == pygame.K_7:
                 win = True
+            elif event.key == pygame.K_1:
+                timer_stuff = True 
 
         elif event.type == pygame.KEYUP:
 
@@ -272,7 +274,6 @@ while not done:
             if intersects.rect_rect(block, rect):
                 block[0] = t[4]
                 block[1] = t[5]
-            
 
         ''' timer stuff '''
         if stage == PLAYING:
@@ -283,8 +284,6 @@ while not done:
 
             if time_remaining == 0:
                 timer_stuff = True
-               
-                ''' and other stuff could happen here too '''
                 
         '''the coins will get affected by the block here'''
         #how do i restart the coins 
@@ -303,9 +302,8 @@ while not done:
         if len(coins) == 0:
             win = True
 
-
         '''this is the bad coins or bit_coins'''
-        
+        #this gives negative lives
         neg_list = []
             
         for bit in bit_coins:
@@ -326,7 +324,8 @@ while not done:
     screen.fill(GREY)
 
     pygame.draw.rect(screen, block_color, block)
-    
+
+    #displays objects that the block will interact with
     for w in walls:
         pygame.draw.rect(screen, GREEN, w)
         
@@ -340,8 +339,8 @@ while not done:
     for bit in bit_coins:
         pygame.draw.rect(screen, YELLOW, bit)
 
-    
-    if stage == PLAYING or stage == PAUSE:
+    #this displays stats of the game
+    if stage == PLAYING:
         ''' timer text '''
         timer_text = GAME_FONT.render(str(time_remaining), True, WHITE)
         screen.blit(timer_text, [200, 5])
@@ -352,7 +351,7 @@ while not done:
 
         '''The life indicator'''
         life_text = GAME_FONT.render("Lives = " + str(lives), True, WHITE)
-        screen.blit(life_text, [430, 5])
+        screen.blit(life_text, [600, 5])
         
     #Coins that can't be reached and have no other purpose in the except to trick the player
     C1 = [160, 180, 20, 20]
@@ -365,6 +364,7 @@ while not done:
     pygame.draw.rect(screen, YELLOW, C4)
                     
     ''' Game text actions '''
+    #this display shows at every beginning of the game
     if stage == START:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, IN_CARD)
@@ -373,60 +373,80 @@ while not done:
         screen.blit(text1, [180, 260])
         screen.blit(text2, [160, 300]) 
                                  
-    #determines if the game ends when the time ends or when the coins are all collected
+    #this display only shows when your time equals zero
     if time_remaining == 0:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, OUT_CARD)
-        text1 = GAME_FONT.render("Game Over", True, BLACK)
+        pygame.draw.rect(screen, WHITE, SCORE_CARD)
+        text1 = GAME_FONT.render("Time's up.", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to start from the begining.)", True, BLACK)
         screen.blit(text1, [300, 270])
         screen.blit(text2, [70, 310])
+        text3 = GAME_FONT.render(name + ": " + str(score1), True, BLACK)
+        text4 = GAME_FONT.render("lives: " + str(lives), True, BLACK)
+        text5 = GAME_FONT.render("Your time: " + str(time_remaining), True, BLACK)
+        screen.blit(text3, [10, 80])
+        screen.blit(text4, [300, 80])
+        screen.blit(text5, [475, 80])
         stage = END
+    #this display only shows when you have collected all the coins
     elif win == True:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, WIN_CARD)
+        pygame.draw.rect(screen, WHITE, SCORE_CARD)
         text1 = GAME_FONT.render("YOU'VE WON I'M SO HAPPY", 1, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to find other ways.)", 1, BLACK)
         screen.blit(text1, [180, 270])
         screen.blit(text2, [140, 310])
         text3 = GAME_FONT.render(name + ": " + str(score1), True, BLACK)
-        text4 = GAME_FONT.render("lives: " + lives, True, BLACK)
+        text4 = GAME_FONT.render("lives: " + str(lives), True, BLACK)
         text5 = GAME_FONT.render("Your time: " + str(time_remaining), True, BLACK)
-        screen.blit(text1, [355, 270])
-        screen.blit(text2, [230, 310])
-        screen.blit(text3, [10, 70])
-        #screen.blit(text4
-        #screen.blit(text5,
-        #10
+        screen.blit(text3, [10, 80])
+        screen.blit(text4, [300, 80])
+        screen.blit(text5, [475, 80])
         stage = END
+    #this display only shows when your total number of lives equals zero
     elif life == False:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, DEATH_CARD)
+        pygame.draw.rect(screen, WHITE, SCORE_CARD)
         text1 = GAME_FONT.render("Your life is done for", True, BLACK)
         text2 = GAME_FONT.render("(Press SPACE to be reborn!)", True, BLACK)
         screen.blit(text1, [260, 270])
         screen.blit(text2, [180, 310])
+        text3 = GAME_FONT.render(name + ": " + str(score1), True, BLACK)
+        text4 = GAME_FONT.render("lives: " + str(lives), True, BLACK)
+        text5 = GAME_FONT.render("Your time: " + str(time_remaining), True, BLACK)
+        screen.blit(text3, [10, 80])
+        screen.blit(text4, [300, 80])
+        screen.blit(text5, [475, 80])
         stage = END
+    #this display only when X is pressed
     elif escape == True:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, SUICIDE_CARD)
+        pygame.draw.rect(screen, WHITE, SCORE_CARD)
         text1 = GAME_FONT.render("You messed up didn't you? It's alright though.", True, BLACK)
         text2 = GAME_FONT.render("(Just press SPACE to be forgiven.)", True, BLACK)
         screen.blit(text1, [30, 270])
         screen.blit(text2, [120, 310])
+        text3 = GAME_FONT.render(name + ": " + str(score1), True, BLACK)
+        text4 = GAME_FONT.render("lives: " + str(lives), True, BLACK)
+        text5 = GAME_FONT.render("Your time: " + str(time_remaining), True, BLACK)
+        screen.blit(text3, [10, 80])
+        screen.blit(text4, [300, 80])
+        screen.blit(text5, [475, 80])
         stage = END
+    #this display only shows when the game is paused
     elif stage == PAUSE:
         pygame.draw.rect(screen, GREEN, GREEN_CARD)
         pygame.draw.rect(screen, WHITE, PAUSE_CARD)
-        pygame.draw.rect(screen, WHITE, SCORE_CARD)
         text1 = GAME_FONT.render("PAUSE", True, BLACK)
         text2 = GAME_FONT.render("(Release to RESUME)", True, BLACK)
         screen.blit(text1, [355, 270])
         screen.blit(text2, [230, 310])
         stage = PAUSE
         
-
-
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
 
@@ -437,4 +457,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
