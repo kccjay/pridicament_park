@@ -24,6 +24,16 @@ BLACK = (0, 0, 0)
 GREEN = (0, 128, 43)
 GREY = (191, 191, 191)
 YELLOW = (255, 209, 26)
+RETRO_GREY = (102, 101, 71)
+RETRO_RED = (251, 46, 1)
+RETRO_BLUE = (111, 203, 159)
+RETRO_BROWN = (255, 226, 138)
+RETRO_BEIGE = (255, 254, 179)
+HOZIER_BLUE = (35, 56, 61)
+HOZIER_SKY_BLUE = (156, 200, 224)
+HOZIER_BROWN = (208, 135, 52)
+HOZIER_GREY = (141, 128, 95)
+
 
 #this will be used to change the varible
 hue = GREY
@@ -58,6 +68,7 @@ SUICIDE_CARD = [0, 240, 800, 120]
 PAUSE_CARD = [0, 240, 800, 120]
 GREEN_CARD = [0, 0, 800, 600]
 SCORE_CARD = [0, 60, 800, 70]
+
 
 # make a wall
 wall1 =  [0, 0, 40, 800]
@@ -206,10 +217,21 @@ while not done:
                  tint = YELLOW
                  block_color = BLACK
             elif event.key == pygame.K_2:
+                 hue = HOZIER_BLUE
+                 tone = HOZIER_GREY
+                 tint = HOZIER_BROWN
+                 block_color = HOZIER_SKY_BLUE
+            elif event.key == pygame.K_3:
+                 hue = RETRO_RED
+                 tone = RETRO_GREY
+                 tint = RETRO_BROWN
+                 block_color = RETRO_BLUE
+            elif event.key == pygame.K_4:
                  hue = WHITE
                  tone = BLACK
                  tint = RED
-                 #block_color = 
+                 block_color = GREEN
+                 
             ''' this was used to test the game without playing the whole game
             elif event.key == pygame.K_c:
                 life = False
@@ -465,3 +487,4 @@ while not done:
 
 # Close window and quit
 pygame.quit()
+
