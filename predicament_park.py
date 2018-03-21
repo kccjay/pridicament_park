@@ -25,6 +25,11 @@ GREEN = (0, 128, 43)
 GREY = (191, 191, 191)
 YELLOW = (255, 209, 26)
 
+#this will be used to change the varible
+hue = GREY
+tone = GREEN
+tint = YELLOW
+
 #Fonts
 GAME_FONT = pygame.font.Font(None, 50)
 
@@ -142,15 +147,6 @@ bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
 
 name = input("Whats your Player name? ")
 
-#control information
-'''
-option = input("If you want to see the controls press O ")
-if option == 'O' or option == 'o':
-    print("1. Use the arrows to move")
-    print("2. Tab to Pause")
-    print("3. Press X to escape and quit game")
-    #print("4. ")
-'''
 
 #Add something to this and add to global and it restarts what you put in 
 def setup():
@@ -174,6 +170,7 @@ life = True
 escape = False
 ending = False
 
+
 # Game loop
 setup()
 done = False
@@ -185,11 +182,11 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.KEYDOWN:
-
+            
             if stage == START:
                 if event.key == pygame.K_SPACE:
                     stage = PLAYING
-            elif stage == END :
+            elif stage == END:
                 if event.key == pygame.K_SPACE:
                     setup()
                     block[0] = 40
@@ -203,12 +200,24 @@ while not done:
                  stage = PAUSE
             elif event.key == pygame.K_x:
                  escape = True
+            elif event.key == pygame.K_1:
+                 hue = GREY
+                 tone = GREEN
+                 tint = YELLOW
+                 block_color = BLACK
+            elif event.key == pygame.K_2:
+                 hue = WHITE
+                 tone = BLACK
+                 tint = RED
+                 #block_color = 
+            ''' this was used to test the game without playing the whole game
             elif event.key == pygame.K_c:
                 life = False
             elif event.key == pygame.K_7:
                 win = True
             elif event.key == pygame.K_1:
-                timer_stuff = True 
+                timer_stuff = True
+            '''
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_TAB:
@@ -236,7 +245,8 @@ while not done:
         else:
             vel[1]  = 0
 
-                    
+    
+    
     #Teleporting around the game board
     if block[0] == 60 and block[1] == 210:
         block[0] = (60)
@@ -319,23 +329,23 @@ while not done:
             life = False
                
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
-    screen.fill(GREY)
+    screen.fill(hue)
 
     pygame.draw.rect(screen, block_color, block)
 
     #displays objects that the block will interact with
     for w in walls:
-        pygame.draw.rect(screen, GREEN, w)
+        pygame.draw.rect(screen, tone, w)
         
     for t in teleports:
        rectangle = t[:4]
-       pygame.draw.rect(screen, GREEN, rectangle)
+       pygame.draw.rect(screen, tone, rectangle)
 
     for c in coins:
-        pygame.draw.rect(screen, YELLOW, c)
+        pygame.draw.rect(screen, tint, c)
 
     for bit in bit_coins:
-        pygame.draw.rect(screen, YELLOW, bit)
+        pygame.draw.rect(screen, tint, bit)
 
     #this displays stats of the game
     if stage == PLAYING:
@@ -356,10 +366,10 @@ while not done:
     C2 = [200, 160, 20, 20]
     C3 = [240, 160, 20, 20]
     C4 = [240, 220, 20, 20]
-    pygame.draw.rect(screen, YELLOW, C1)
-    pygame.draw.rect(screen, YELLOW, C2)
-    pygame.draw.rect(screen, YELLOW, C3)
-    pygame.draw.rect(screen, YELLOW, C4)
+    pygame.draw.rect(screen, tint, C1)
+    pygame.draw.rect(screen, tint, C2)
+    pygame.draw.rect(screen, tint, C3)
+    pygame.draw.rect(screen, tint, C4)
                     
     ''' Game text actions '''
     #this display shows at every beginning of the game
@@ -455,4 +465,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
