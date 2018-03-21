@@ -7,7 +7,6 @@ import os
 # Initialize game engine
 pygame.init()
 
-
 # Window
 SIZE = (800, 600)
 TITLE = "Predicament Park"
@@ -25,7 +24,6 @@ BLACK = (0, 0, 0)
 GREEN = (0, 128, 43)
 GREY = (191, 191, 191)
 YELLOW = (255, 209, 26)
-
 
 #Fonts
 GAME_FONT = pygame.font.Font(None, 50)
@@ -143,7 +141,16 @@ bitF = [520, 480, 20, 20]
 bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
 
 name = input("Whats your Player name? ")
-#option = input("If you want to see the controls press O ")
+
+#control information
+'''
+option = input("If you want to see the controls press O ")
+if option == 'O' or option == 'o':
+    print("1. Use the arrows to move")
+    print("2. Tab to Pause")
+    print("3. Press X to escape and quit game")
+    #print("4. ")
+'''
 
 #Add something to this and add to global and it restarts what you put in 
 def setup():
@@ -167,17 +174,13 @@ life = True
 escape = False
 ending = False
 
-
 # Game loop
 setup()
-
 done = False
 
 while not done:
+
     #Event processing (React to key presses, mouse clicks, etc.)
-
-
-    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -195,9 +198,7 @@ while not done:
                     life = True
                     escape = False
                     score1 = 0
-                    lives = 5
-
-                    
+                    lives = 5                    
             elif event.key == pygame.K_TAB:
                  stage = PAUSE
             elif event.key == pygame.K_x:
@@ -210,7 +211,6 @@ while not done:
                 timer_stuff = True 
 
         elif event.type == pygame.KEYUP:
-
             if event.key == pygame.K_TAB:
                 stage = PLAYING
                     
@@ -221,8 +221,6 @@ while not done:
     left = state[pygame.K_LEFT]
     right = state[pygame.K_RIGHT]
             
-
-
     if stage == PLAYING:
         if left:
             vel[0]  = -speed
@@ -237,7 +235,7 @@ while not done:
             vel[1]  = speed
         else:
             vel[1]  = 0
-    
+
                     
     #Teleporting around the game board
     if block[0] == 60 and block[1] == 210:
@@ -457,3 +455,4 @@ while not done:
 
 # Close window and quit
 pygame.quit()
+
