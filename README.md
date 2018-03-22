@@ -3,7 +3,7 @@
 1. You must type your name first on the python shell to active the game
 
 ##Goal
-  1. COLLECT ALL OF THE COINS TO WIN AND YES THE BIG YELLOW BLOCK IS 'THE END'
+  1. COLLECT ALL OF THE GOOD COINS AND LEAVE THE BAD COINS ALONE TO WIN AND YES THE BIG YELLOW BLOCK IS 'THE END'
   2. DON'T GET STUCK
   3. FIND 'THE PATH'
 
@@ -14,4 +14,4 @@
   4. Press the number keys up to 4 to change the color palette of the game
 
 ##Fundamentals
-By pressing space at the beginning and end you restart everything in the game. You only have five lives no more and no less. and the block is a ghost. It's a thinker BEWARE. 
+By pressing space at the beginning and end you restart everything in the game. You only have five lives no more and no less and the block acts like a ghost. Some coins don't eixst so keep a mental note of that. It's a thinker BEWARE. 
