@@ -34,7 +34,6 @@ HOZIER_SKY_BLUE = (156, 200, 224)
 HOZIER_BROWN = (208, 135, 52)
 HOZIER_GREY = (141, 128, 95)
 
-
 #this will be used to change the varible
 hue = GREY
 tone = GREEN
@@ -49,14 +48,12 @@ PLAYING = 1
 END = 2
 PAUSE = 3
 
-# Make a block
+# Make a block and the characteristics of the block
 block =  [40, 40, 40, 40]
 vel = [0, 0]
 speed = 3
 score1 = 0
 block_color = BLACK
-
-#Lives in the game
 lives = 5
 
 #The white cards
@@ -156,8 +153,13 @@ bitF = [520, 480, 20, 20]
 
 bit_coins = [bitA, bitB, bitC, bitD, bitE, bitF]
 
-name = input("Whats your Player name? ")
+#The non-existing coins
+C1 = [160, 180, 20, 20]
+C2 = [200, 160, 20, 20]
+C3 = [240, 160, 20, 20]
+C4 = [240, 220, 20, 20]
 
+name = input("Whats your Player name? ")
 
 #Add something to this and add to global and it restarts what you put in 
 def setup():
@@ -267,13 +269,7 @@ while not done:
         else:
             vel[1]  = 0
 
-    
-    
-    #Teleporting around the game board
-    if block[0] == 60 and block[1] == 210:
-        block[0] = (60)
-        block[1] = (320)
-    
+
     # Game logic (Check for collisions, update points, etc.)
     if stage == PLAYING:
         ''' move the block in horizontal direction '''
@@ -384,10 +380,6 @@ while not done:
         screen.blit(life_text, [600, 5])
         
     #Coins that can't be reached and have no other purpose in the except to trick the player
-    C1 = [160, 180, 20, 20]
-    C2 = [200, 160, 20, 20]
-    C3 = [240, 160, 20, 20]
-    C4 = [240, 220, 20, 20]
     pygame.draw.rect(screen, tint, C1)
     pygame.draw.rect(screen, tint, C2)
     pygame.draw.rect(screen, tint, C3)
@@ -487,4 +479,3 @@ while not done:
 
 # Close window and quit
 pygame.quit()
-
