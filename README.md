@@ -11,6 +11,7 @@
   1. Use the arrows Up, Down, Left, Right
   2. Press TAB to pause the game
   3. Press X to quit the game and start over
+  4. Press the number keys up to 4 to change the color palette of the game
 
 ##Fundamentals
-By pressing space at the beginning and end you restart everything in the game. You only have five lives no more and no less. The green is grass, the grey is concrete and the block is a ghost. It's a thinker BEWARE. 
+By pressing space at the beginning and end you restart everything in the game. You only have five lives no more and no less. and the block is a ghost. It's a thinker BEWARE. 
